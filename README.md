@@ -1,2 +1,2 @@
 # Vec3
-3D vector manipulation
+3D manipulation of the made for Minecraft.

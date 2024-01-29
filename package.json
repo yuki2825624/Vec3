@@ -1,0 +1,26 @@
+{
+    "name": "vec3",
+    "version": "1.0.0",
+    "description": "3D manipulation of the made for Minecraft.",
+    "author": "yuki2825624",
+    "scripts": {
+        "example": "node ./example.js"
+    },
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "exports": {
+        "types": "./index.d.ts",
+        "require": "./index.js"
+    },
+    "keywords": [
+        "vector"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yuki2825624/vec3.git"
+    },
+    "bugs": {
+        "url": "https://github.com/yuki2825624/vec3/issues"
+    },
+    "license": "MIT"
+}
