@@ -1,6 +1,6 @@
 /** @typedef {{ x: number, y: number, z: number }} Vector3 */
 
-class Vec3 {
+export class Vec3 {
     /**
      * @param {number} x 
      * @param {number} y 
@@ -274,4 +274,4 @@ class Vec3 {
     }
 }
 
-module.exports = { Vec3 };
+// module.exports = { Vec3 };

@@ -4,7 +4,7 @@
     "description": "3D manipulation of the made for Minecraft.",
     "author": "yuki2825624",
     "scripts": {
-        "example": "node ./example.js"
+        "example": "node ./example.mjs"
     },
     "main": "./index.js",
     "types": "./index.d.ts",

@@ -1,4 +1,4 @@
-const { Vec3 } = require("./index");
+import { Vec3 } from "./index.mjs";
 
 const vec = new Vec3(10.5, 20, -10);
 
