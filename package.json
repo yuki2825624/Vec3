@@ -6,11 +6,11 @@
     "scripts": {
         "example": "node ./example.mjs"
     },
-    "main": "./index.js",
+    "main": "./index.mjs",
     "types": "./index.d.ts",
     "exports": {
         "types": "./index.d.ts",
-        "require": "./index.js"
+        "require": "./index.mjs"
     },
     "keywords": [
         "vector"
