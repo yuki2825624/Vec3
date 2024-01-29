@@ -1,3 +1,5 @@
+// @ts-check
+
 /** @typedef {{ x: number, y: number, z: number }} Vector3 */
 
 export class Vec3 {
@@ -105,7 +107,7 @@ export class Vec3 {
     }
 
     static reflect(vec, n) {
-        return Vec3.subtract(v, Vec3.multiply(n, 2 * Vec3.dot(v, n)));
+        return Vec3.subtract(vec, Vec3.multiply(n, 2 * Vec3.dot(vec, n)));
     }
 
     static lerp(a, b, t) {
