@@ -87,7 +87,7 @@ export class Vec3 {
     }
 
     static cross(a, b) {
-        return ((a, b) => new Vec3(a.y * b.z - a.z * b.y, a.x * b.z - a.z * b.x, a.x * b.y - a.y * b.x))(Vec3.from(a), Vec3.from(b));
+        return ((a, b) => new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x))(Vec3.from(a), Vec3.from(b));
     }
 
     static dot(a, b) {
