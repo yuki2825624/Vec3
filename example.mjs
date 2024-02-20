@@ -3,7 +3,7 @@ import { Vec3 } from "./index.mjs";
 const vec = new Vec3(10.5, 20, -10);
 
 // Vec3 to string
-console.log(vec.toString()); // 10 20 -10
+console.log(vec.toString()); // 10.5 20 -10
 
 // offset from Vec3
 console.log(vec.offset(10, 5, 10).toString()); // 20.5 25 0
