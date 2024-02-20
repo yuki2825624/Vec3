@@ -128,8 +128,8 @@ export class Vec3 {
         return Vec3.magnitude(Vec3.subtract(a, b));
     }
 
-    static direction(a, b) {
-        return Vec3.normalize(Vec3.subtract(b, a));
+    static direction(rot) {
+        return ((vec) => new Vec3(-Math.sin(vec.y) * Math.cos(vec.x), -Math.sin(vec.x), Math.cos(vec.y) * Math.cos(vec.x)))(Vec3.from(rot).multiply(Math.PI / 180));
     }
 
     static fill(n) {
