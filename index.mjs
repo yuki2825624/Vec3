@@ -114,6 +114,16 @@ export class Vec3 {
         return Vec3.multiply(a, 1 - t).add(Vec3.multiply(b, t));
     }
 
+    static slerp(a, b, t) {
+        const dot = Vec3.dot(a, b);
+        const theta = Math.acos(dot) * t;
+        return Vec3.multiply(a, Math.cos(theta)).add(Vec3.subtract(b, Vec3.multiply(a, dot)).multiply(Math.sin(theta)));
+    }
+
+    static circle(vec, r, angle) {
+        return Vec3.from(vec).offset(r * Math.cos(angle * Math.PI / 180), 0, r * Math.sin(angle * Math.PI * 180));
+    }
+
     static distance(a, b) {
         return Vec3.magnitude(Vec3.subtract(a, b));
     }

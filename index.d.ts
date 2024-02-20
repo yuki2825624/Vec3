@@ -29,6 +29,8 @@ export class Vec3 {
     static rejection(a: any, b: any): Vec3;
     static reflect(vec: any, n: number): Vec3;
     static lerp(a: any, b: any, t: number): Vec3;
+    static slerp(a: any, b: any, t: number): Vec3;
+    static circle(vec: any, r: number, angle: number): Vec3;
     static distance(a: any, b: any): number;
     static direction(a: any, b: any): Vec3;
     static fill(n: number): Vec3;
