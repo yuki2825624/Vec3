@@ -62,7 +62,7 @@ export class Vec3 {
     }
 
     static fixed(vec, n = 0) {
-        return Vec3.from(vec, (v) => new Vec3(Number(v.y.toFixed(n)), Number(v.y.toFixed(n)), Number(v.y.toFixed(n))));
+        return Vec3.from(vec, (v) => new Vec3(Number(v.x.toFixed(n)), Number(v.y.toFixed(n)), Number(v.z.toFixed(n))));
     }
     
     static abs(vec) {
@@ -268,9 +268,9 @@ export class Vec3 {
      */
     format(input) {
         return input
-            .replace("x", String(this.x))
-            .replace("y", String(this.y))
-            .replace("z", String(this.z));
+            .replace("$x", String(this.x))
+            .replace("$y", String(this.y))
+            .replace("$z", String(this.z));
     }
 
     toString() {

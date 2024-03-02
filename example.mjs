@@ -1,4 +1,4 @@
-import { Vec3 } from "./index.mjs";
+import { Vec3 } from "./index";
 
 const vec = new Vec3(10.5, 20, -10);
 

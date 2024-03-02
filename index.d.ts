@@ -8,7 +8,7 @@ export class Vec3 {
     constructor(x?: number, y?: number, z?: number);
     static isVec3(vec: any): vec is Vec3;
     static isNaN(vec: any): boolean;
-    static from(object: any): Vec3;
+    static from <T extends any> (object: any, map: (vec: Vec3) => T): T;
     static add(vec: any, ...vector: any[]): Vec3;
     static subtract(vec: any, ...vector: any[]): Vec3
     static multiply(vec: any, n: number): Vec3;
