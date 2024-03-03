@@ -207,8 +207,8 @@ export class Vec3 {
 
     offsetDirct(x, y, z, direction) {
         const zVec = direction;
-        const xVec = Vec3.normalize(new Vec3(zVec.z, 0, zVec.x));
-        const yVec = Vec3.normalize(Vec3.cross(xVec, zVec));
+        const xVec = Vec3.normalize(new Vec3(zVec.z, 0, -zVec.x));
+        const yVec = Vec3.normalize(Vec3.cross(zVec, xVec));
         return this.add(Vec3.multiply(xVec, x), Vec3.multiply(yVec, y), Vec3.multiply(zVec, z));
     }
 
