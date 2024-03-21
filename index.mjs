@@ -287,10 +287,6 @@ export class Vec3 {
     toJSON() {
         return { x: this.x, y: this.y, z: this.z };
     }
-
-    toBlockAreaSize() {
-        return new BlockAreaSize(this.x, this.y, this.z);
-    }
 }
 
 export class Vec3Volume {
