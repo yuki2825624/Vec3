@@ -1,17 +1,20 @@
-// @ts-check
-
-/** @typedef {{ x: number, y: number, z: number }} Vector3 */
-
 export class Vec3 {
-    /**
-     * @param {number} x 
-     * @param {number} y 
-     * @param {number} z 
-     */
     constructor(x = 0, y = 0, z = 0) {
         this.x = Number(x);
         this.y = Number(y);
         this.z = Number(z);
+    }
+
+    static get ZERO() {
+        return Vec3.fill(0);
+    }
+
+    static get POSITIVE() {
+        return Vec3.fill(1);
+    }
+
+    static get NEGATIVE() {
+        return Vec3.fill(-1);
     }
 
     static isVec3(vec) {
@@ -22,13 +25,12 @@ export class Vec3 {
         return Number.isNaN(Number(vec.x)) || Number.isNaN(Number(vec.y)) || Number.isNaN(Number(vec.z));
     }
 
-    /** @returns {Vec3} */
-    static from(object, callback = (vec) => vec) {
-        if (Vec3.isVec3(object)) return callback(object);
+    static from(object, map = (vec) => vec) {
+        if (Vec3.isVec3(object)) return map(object);
         if (typeof object === "string") object = object.split(/ +/);
-        if (Array.isArray(object)) return callback(new Vec3(object[0], object[1], object[2]));
+        if (Array.isArray(object)) return map(new Vec3(object[0], object[1], object[2]));
         const { x = 0, y = 0, z = 0 } = object ?? {};
-        return callback(new Vec3(x, y, z));
+        return map(new Vec3(x, y, z));
     }
 
     /** @returns {Vec3} */
@@ -44,7 +46,7 @@ export class Vec3 {
     static multiply(vec, n) {
         return Vec3.from(vec, (v) => new Vec3(v.x * n, v.y * n, v.z * n));
     }
-    
+
     static pow(vec, n) {
         return Vec3.from(vec, (v) => new Vec3(v.x ** n, v.y ** n, v.z ** n));
     }
@@ -64,17 +66,17 @@ export class Vec3 {
     static fixed(vec, n = 0) {
         return Vec3.from(vec, (v) => new Vec3(Number(v.x.toFixed(n)), Number(v.y.toFixed(n)), Number(v.z.toFixed(n))));
     }
-    
+
     static abs(vec) {
         return Vec3.from(vec, (v) => new Vec3(Math.abs(v.x), Math.abs(v.y), Math.abs(v.z)));
     }
 
     static min(...vector) {
-        return ((vector) => Vec3.from([ "x", "y", "z" ].map((axis) => Math.min(...vector.map((vec) => vec[axis])))))(vector.map((vec) => Vec3.from(vec)));
+        return ((vector) => Vec3.from(["x", "y", "z"].map((axis) => Math.min(...vector.map((vec) => vec[axis])))))(vector.map((vec) => Vec3.from(vec)));
     }
 
     static max(...vector) {
-        return ((vector) => Vec3.from([ "x", "y", "z" ].map((axis) => Math.max(...vector.map((vec) => vec[axis])))))(vector.map((vec) => Vec3.from(vec)));
+        return ((vector) => Vec3.from(["x", "y", "z"].map((axis) => Math.max(...vector.map((vec) => vec[axis])))))(vector.map((vec) => Vec3.from(vec)));
     }
 
     static magnitude(vec) {
@@ -121,22 +123,29 @@ export class Vec3 {
     }
 
     static circle(vec, r, angle) {
-        return Vec3.from(vec).offset(r * Math.cos(angle * Math.PI / 180), 0, r * Math.sin(angle * Math.PI * 180));
+        return Vec3.from(vec).offset(r * Math.cos(angle), 0, r * Math.sin(angle));
+    }
+    
+    static sphere(vec, r, longitude, latitude) {
+        return Vec3.from(vec).offset(r * Math.sin(latitude) * Math.cos(longitude), r * Math.cos(latitude), r * Math.sin(latitude) * Math.sin(longitude));
     }
 
     static distance(a, b) {
         return Vec3.magnitude(Vec3.subtract(a, b));
     }
 
-    static direction(rot) {
-        return ((vec) => new Vec3(-Math.sin(vec.y) * Math.cos(vec.x), -Math.sin(vec.x), Math.cos(vec.y) * Math.cos(vec.x)))(Vec3.from(rot).multiply(Math.PI / 180));
+    static facDirection(a, b) {
+        return Vec3.normalize(Vec3.subtract(b, a));
+    }
+
+    static rotDirection(rot) {
+        return ((vec) => new Vec3(-Math.sin(vec.y) * Math.cos(vec.x), -Math.sin(vec.x), Math.cos(vec.y) * Math.cos(vec.x)))(Vec3.from(rot));
     }
 
     static fill(n) {
         return new Vec3(n, n, n);
     }
 
-    /** @returns {Vec3[]} */
     static line(a, b, s = 1) {
         return ((distance) => Array.from({ length: distance / s + 1 }, (_, i) => Vec3.lerp(a, b, i * s / distance)))(Vec3.distance(a, b));
     }
@@ -148,7 +157,7 @@ export class Vec3 {
     get East() {
         return this.offsetX(1);
     }
-    
+
     get West() {
         return this.offsetX(-1);
     }
@@ -160,11 +169,11 @@ export class Vec3 {
     get Down() {
         return this.offsetY(-1);
     }
-    
+
     get North() {
         return this.offsetZ(1);
     }
-    
+
     get South() {
         return this.offsetZ(-1);
     }
@@ -202,18 +211,19 @@ export class Vec3 {
     }
 
     fixed(n = 0) {
-        return Vec3.fixed(this.clone(), n); 
+        return Vec3.fixed(this.clone(), n);
     }
 
     offsetDirct(x, y, z, direction) {
-        const zVec = direction;
+        const zVec = Vec3.from(direction);
         const xVec = Vec3.normalize(new Vec3(zVec.z, 0, -zVec.x));
         const yVec = Vec3.normalize(Vec3.cross(zVec, xVec));
         return this.add(Vec3.multiply(xVec, x), Vec3.multiply(yVec, y), Vec3.multiply(zVec, z));
     }
 
-    offsetAll(n) {
-        return this.clone().offset(n, n, n);
+    offsetAll(n, match = "xyz") {
+        if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
+        return Vec3.from([...match].map((axis) => this[axis] + n));
     }
 
     offset(x, y, z) {
@@ -231,7 +241,7 @@ export class Vec3 {
     offsetZ(z) {
         return this.offset(0, 0, z);
     }
-    
+
     setX(x) {
         return new Vec3(x, this.y, this.z);
     }
@@ -244,28 +254,21 @@ export class Vec3 {
         return new Vec3(this.x, this.y, z);
     }
 
-    /**
-     * @param {any} vec 
-     * @param {`${"x"|""}${"y"|""}${"z"|""}`} match
-     */
+    fill(n, match = "xyz") {
+        if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
+        return Vec3.from([...match].map((axis) => this[axis] = n));
+    }
+
     equals(vec, match = "xyz") {
         if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
         const fromVec = this.clone(), toVec = Vec3.from(vec);
-        return ![ ...match ].some((axis) => fromVec[axis] !== toVec[axis]);
+        return ![...match].some((axis) => fromVec[axis] !== toVec[axis]);
     }
 
     clone() {
         return new Vec3(this.x, this.y, this.z);
     }
 
-    /**
-     * @param {string} input
-     * @example
-     * ```js
-     * const result = new Vec3(1, 2, 3).format("X: $x Y: $y Z: $z");  
-     * console.log(result); // X: 1 Y: 2 Z: 3
-     * ```
-     */
     format(input) {
         return input
             .replace("$x", String(this.x))
@@ -278,12 +281,33 @@ export class Vec3 {
     }
 
     toArray() {
-        return [ this.x, this.y, this.z ];
+        return [this.x, this.y, this.z];
     }
 
     toJSON() {
         return { x: this.x, y: this.y, z: this.z };
     }
+
+    toBlockAreaSize() {
+        return new BlockAreaSize(this.x, this.y, this.z);
+    }
 }
 
-// module.exports = { Vec3 };
+export class Vec3Volume {
+    constructor(from, to) {
+        this.from = Vec3.from(from);
+        this.to = Vec3.from(to);
+    }
+
+    get min() {
+        return Vec3.min(this.from, this.to);
+    }
+
+    get max() {
+        return Vec3.max(this.from, this.to);
+    }
+
+    isInSide(vec) {
+        return ((vec) => vec.x >= this.min.x && vec.x <= this.max.x && vec.y >= this.min.y && vec.y <= this.max.y && vec.z >= this.min.z && vec.z <= this.max.z)(vec);
+    }
+}
