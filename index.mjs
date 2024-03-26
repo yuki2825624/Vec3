@@ -315,14 +315,6 @@ export class Vec3Volume {
         return ((vec) => vec.x >= this.min.x && vec.x <= this.max.x && vec.y >= this.min.y && vec.y <= this.max.y && vec.z >= this.min.z && vec.z <= this.max.z)(vec);
     }
 
-    lerp(t) {
-        return Vec3.lerp(this.from, this.to, t);
-    }
-
-    slerp(t) {
-        return Vec3.slerp(this.from, this.to, t);
-    }
-
     clone() {
         return new Vec3Volume(this.from.clone(), this.to.clone());
     }

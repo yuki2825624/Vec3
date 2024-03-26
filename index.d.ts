@@ -88,4 +88,8 @@ export class Vec3Volume {
     get min(): Vec3;
     get max(): Vec3;
     isInSide(vec: Vec3Like): boolean;
+    clone(): Vec3Volume;
+    toString(): string;
+    toArray(): [ Vec3, Vec3 ];
+    toJSON(): { from: Vec3, to: Vec3 };
 }
