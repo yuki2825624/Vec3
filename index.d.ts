@@ -1,4 +1,5 @@
-type Vec3Like = { x?: string|number, y?: string|number, z?: string|number }|(string|number)[]|string; 
+
+type Vec3Like = { x?: string|number, y?: string|number, z?: string|number }|(string|number)[]|string|number; 
 
 interface Vector3 {
     x: number, 
@@ -13,7 +14,7 @@ export class Vec3 {
     static get NEGATIVE(): Vec3;
     static isVec3(vec: Vec3Like): vec is Vec3;
     static isNaN(vec: Vec3Like): boolean;
-    static from(object: Vec3Like, map: (vec: Vec3) => Vec3): Vec3;
+    static from(object: Vec3Like, map?: (vec: Vec3) => Vec3): Vec3;
     static add(vec: Vec3Like, ...vector: Vec3Like[]): Vec3;
     static subtract(vec: Vec3Like, ...vector: Vec3Like[]): Vec3
     static multiply(vec: Vec3Like, n: number): Vec3;
@@ -46,6 +47,7 @@ export class Vec3 {
     readonly x: number;
     readonly y: number;
     readonly z: number;
+    get normalized(): Vec3;
     get East(): Vec3;
     get West(): Vec3
     get Up(): Vec3;
@@ -59,23 +61,24 @@ export class Vec3 {
     ceil(): Vec3;
     floor(): Vec3;
     abs(): Vec3;
+    align(): Vec3;
     fixed(n?: number): Vec3;
     offsetDirct(x: number, y: number, z: number, direction: Vector3): Vec3;
-    offsetAll(n: number, match?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
+    offsetAll(n: number, axis?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
     offset(x: number, y: number, z: number): Vec3;
-    offsetX(x: number): Vec3
-    offsetY(y: number): Vec3
-    offsetZ(z: number): Vec3
-    setX(x: number): Vec3
-    setY(y: number): Vec3
+    offsetX(x: number): Vec3;
+    offsetY(y: number): Vec3;
+    offsetZ(z: number): Vec3;
+    setX(x: number): Vec3;
+    setY(y: number): Vec3;
     setZ(z: number): Vec3;
-    fill(vec: Vec3Like, match?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
-    equals(vec: Vec3Like, match?: `${"x"|""}${"y"|""}${"z"|""}`): boolean;
+    fill(vec: Vec3Like, axis?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
+    equals(vec: Vec3Like, axis?: `${"x"|""}${"y"|""}${"z"|""}`): boolean;
     clone(): Vec3;
     format(input: string): string;
     toString(): string;
     toArray(): [ x: number, y: number, z: number ];
-    toJSON(): Vector3;
+    toJSON(): Vector3; 
 }
 
 export class Vec3Volume {

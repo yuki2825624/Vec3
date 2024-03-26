@@ -25,20 +25,20 @@ export class Vec3 {
         return Number.isNaN(Number(vec.x)) || Number.isNaN(Number(vec.y)) || Number.isNaN(Number(vec.z));
     }
 
+    /** @returns {Vec3} */
     static from(object, map = (vec) => vec) {
         if (Vec3.isVec3(object)) return map(object);
+        if (typeof object === "number") return map(Vec3.fill(object));
         if (typeof object === "string") object = object.split(/ +/);
         if (Array.isArray(object)) return map(new Vec3(object[0], object[1], object[2]));
         const { x = 0, y = 0, z = 0 } = object ?? {};
         return map(new Vec3(x, y, z));
     }
 
-    /** @returns {Vec3} */
     static add(vec, ...vector) {
         return vector.reduce((result, vec) => Vec3.from(vec, (v) => new Vec3(result.x + v.x, result.y + v.y, result.z + v.z)), Vec3.from(vec));
     }
 
-    /** @returns {Vec3} */
     static subtract(vec, ...vector) {
         return vector.reduce((result, vec) => Vec3.from(vec, (v) => new Vec3(result.x - v.x, result.y - v.y, result.z - v.z)), Vec3.from(vec));
     }
@@ -139,7 +139,7 @@ export class Vec3 {
     }
 
     static rotDirection(rot) {
-        return ((vec) => new Vec3(-Math.sin(vec.y) * Math.cos(vec.x), -Math.sin(vec.x), Math.cos(vec.y) * Math.cos(vec.x)))(Vec3.from(rot));
+        return ((vec) => new Vec3(-Math.sin(vec.y) * Math.cos(vec.x), -Math.sin(vec.x), Math.cos(vec.y) * Math.cos(vec.x)))(Vec3.multiply(rot, Math.PI / 180));
     }
 
     static fill(n) {
@@ -152,6 +152,10 @@ export class Vec3 {
 
     static size(a, b) {
         return ((a, b) => (Math.abs(a.x - b.x) + 1) * (Math.abs(a.y - b.y) + 1) * (Math.abs(a.z - b.z) + 1))(Vec3.from(a), Vec3.from(b));
+    }
+
+    get normalized() {
+        return Vec3.normalize(this.clone());
     }
 
     get East() {
@@ -210,6 +214,10 @@ export class Vec3 {
         return Vec3.abs(this.clone());
     }
 
+    align() {
+        return Vec3.floor(this.clone()).offsetAll(0.5);
+    }
+
     fixed(n = 0) {
         return Vec3.fixed(this.clone(), n);
     }
@@ -221,9 +229,9 @@ export class Vec3 {
         return this.add(Vec3.multiply(xVec, x), Vec3.multiply(yVec, y), Vec3.multiply(zVec, z));
     }
 
-    offsetAll(n, match = "xyz") {
-        if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
-        return Vec3.from([...match].map((axis) => this[axis] + n));
+    offsetAll(n, axis = "xyz") {
+        if (axis.match(/[^xyz]/g)) throw new TypeError("axis contains other than x, y and z.");
+        return Vec3.from([...axis].map((x) => this[x] + n));
     }
 
     offset(x, y, z) {
@@ -254,15 +262,15 @@ export class Vec3 {
         return new Vec3(this.x, this.y, z);
     }
 
-    fill(n, match = "xyz") {
-        if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
-        return Vec3.from([...match].map((axis) => this[axis] = n));
+    fill(n, axis = "xyz") {
+        if (axis.match(/[^xyz]/g)) throw new TypeError("axis contains other than x, y and z.");
+        return Vec3.from([...axis].map((x) => this[x] = n));
     }
 
-    equals(vec, match = "xyz") {
-        if (match.match(/[^xyz]/g)) throw new TypeError("match contains other than x, y and z.");
+    equals(vec, axis = "xyz") {
+        if (axis.match(/[^xyz]/g)) throw new TypeError("axis contains other than x, y and z.");
         const fromVec = this.clone(), toVec = Vec3.from(vec);
-        return ![...match].some((axis) => fromVec[axis] !== toVec[axis]);
+        return ![...axis].some((x) => fromVec[x] !== toVec[x]);
     }
 
     clone() {
@@ -305,5 +313,29 @@ export class Vec3Volume {
 
     isInSide(vec) {
         return ((vec) => vec.x >= this.min.x && vec.x <= this.max.x && vec.y >= this.min.y && vec.y <= this.max.y && vec.z >= this.min.z && vec.z <= this.max.z)(vec);
+    }
+
+    lerp(t) {
+        return Vec3.lerp(this.from, this.to, t);
+    }
+
+    slerp(t) {
+        return Vec3.slerp(this.from, this.to, t);
+    }
+
+    clone() {
+        return new Vec3Volume(this.from.clone(), this.to.clone());
+    }
+
+    toString() {
+        return `${this.from.toString()}, ${this.to.toString()}`;
+    }
+
+    toArray() {
+        return [ this.from, this.to ];
+    }
+
+    toJSON() {
+        return { from: this.from.toJSON(), to: this.to.toJSON() };
     }
 }
