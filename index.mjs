@@ -63,12 +63,20 @@ export class Vec3 {
         return Vec3.from(vec, (v) => new Vec3(Math.floor(v.x), Math.floor(v.y), Math.floor(v.z)));
     }
 
-    static fixed(vec, n = 0) {
-        return Vec3.from(vec, (v) => new Vec3(Number(v.x.toFixed(n)), Number(v.y.toFixed(n)), Number(v.z.toFixed(n))));
-    }
-
     static abs(vec) {
         return Vec3.from(vec, (v) => new Vec3(Math.abs(v.x), Math.abs(v.y), Math.abs(v.z)));
+    }
+
+    static sign(vec) {
+        return Vec3.from(vec, (v) => new Vec3(Math.sign(v.x), Math.sign(v.y), Math.sign(v.z)));
+    }
+
+    static align(vec) {
+        return Vec3.from(vec).floor().add(0.5);
+    }
+
+    static fixed(vec, n = 0) {
+        return Vec3.from(vec, (v) => new Vec3(Number(v.x.toFixed(n)), Number(v.y.toFixed(n)), Number(v.z.toFixed(n))));
     }
 
     static min(...vector) {
@@ -214,8 +222,12 @@ export class Vec3 {
         return Vec3.abs(this.clone());
     }
 
+    sign() {
+        return Vec3.sign(this.clone());
+    }
+
     align() {
-        return Vec3.floor(this.clone()).offsetAll(0.5);
+        return Vec3.align(this.clone());
     }
 
     fixed(n = 0) {

@@ -22,8 +22,10 @@ export class Vec3 {
     static ceil(vec: Vec3Like): Vec3;
     static round(vec: Vec3Like): Vec3;
     static floor(vec: Vec3Like): Vec3;
-    static fixed(vec: Vec3Like, n?: number): Vec3;
     static abs(vec: Vec3Like): Vec3;
+    static sign(vec: Vec3Like): Vec3;
+    static align(vec: Vec3Like): Vec3;
+    static fixed(vec: Vec3Like, n?: number): Vec3;
     static min(...vector: Vec3Like[]): Vec3;
     static max(...vector: Vec3Like[]): Vec3;
     static magnitude(vec: Vec3Like): number;
@@ -61,6 +63,7 @@ export class Vec3 {
     ceil(): Vec3;
     floor(): Vec3;
     abs(): Vec3;
+    sign(): Vec3;
     align(): Vec3;
     fixed(n?: number): Vec3;
     offsetDirct(x: number, y: number, z: number, direction: Vector3): Vec3;
