@@ -1,20 +1,26 @@
-
-type Vec3Like = { x?: string|number, y?: string|number, z?: string|number }|(string|number)[]|string|number; 
+type Vec3Like = { x?: string | number, y?: string | number, z?: string | number } | (string | number)[] | string | number;
 
 interface Vector3 {
-    x: number, 
+    x: number,
     y: number,
     z: number
 }
 
+interface Vector2 {
+    x: number;
+    y: number;
+}
+
 export class Vec3 {
-    constructor(x?: number, y?: number, z?: number);
+    constructor(x?: any, y?: any, z?: any);
     static get ZERO(): Vec3;
     static get POSITIVE(): Vec3;
     static get NEGATIVE(): Vec3;
     static isVec3(vec: Vec3Like): vec is Vec3;
+    static isVector3(vec: Vec3Like): vec is Vector3;
     static isNaN(vec: Vec3Like): boolean;
     static from(object: Vec3Like, map?: (vec: Vec3) => Vec3): Vec3;
+    static parse(vec: string, axis: "x" | "xy" | "xyz"): Vec3;
     static add(vec: Vec3Like, ...vector: Vec3Like[]): Vec3;
     static subtract(vec: Vec3Like, ...vector: Vec3Like[]): Vec3
     static multiply(vec: Vec3Like, n: number): Vec3;
@@ -45,7 +51,8 @@ export class Vec3 {
     static rotDirection(rot: Vec3Like): Vec3;
     static fill(n: number): Vec3;
     static line(a: Vec3Like, b: Vec3Like, s?: number): Vec3[];
-    static size(a: Vec3Like, b: Vec3Like): number;
+    static size(a: Vec3Like, b: Vec3Like): Vec3;
+    static volume(a: Vec3Like, b: Vec3Like): number;
     readonly x: number;
     readonly y: number;
     readonly z: number;
@@ -67,7 +74,7 @@ export class Vec3 {
     align(): Vec3;
     fixed(n?: number): Vec3;
     offsetDirct(x: number, y: number, z: number, direction: Vector3): Vec3;
-    offsetAll(n: number, axis?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
+    offsetAll(n: number, axis?: `${"x" | ""}${"y" | ""}${"z" | ""}`): Vec3;
     offset(x: number, y: number, z: number): Vec3;
     offsetX(x: number): Vec3;
     offsetY(y: number): Vec3;
@@ -75,13 +82,14 @@ export class Vec3 {
     setX(x: number): Vec3;
     setY(y: number): Vec3;
     setZ(z: number): Vec3;
-    fill(vec: Vec3Like, axis?: `${"x"|""}${"y"|""}${"z"|""}`): Vec3;
-    equals(vec: Vec3Like, axis?: `${"x"|""}${"y"|""}${"z"|""}`): boolean;
-    clone(): Vec3;
+    setAxis(axis: `${"x" | ""}${"y" | ""}${"z" | ""}`): Vec3;
+    fill(vec: Vec3Like, axis?: `${"x" | ""}${"y" | ""}${"z" | ""}`): Vec3;
+    equals(vec: Vec3Like, axis?: `${"x" | ""}${"y" | ""}${"z" | ""}`): boolean;
     format(input: string): string;
+    clone(): Vec3;
     toString(): string;
-    toArray(): [ x: number, y: number, z: number ];
-    toJSON(): Vector3; 
+    toArray(): [x: number, y: number, z: number];
+    toJSON(): Vector3;
 }
 
 export class Vec3Volume {
@@ -93,6 +101,6 @@ export class Vec3Volume {
     isInSide(vec: Vec3Like): boolean;
     clone(): Vec3Volume;
     toString(): string;
-    toArray(): [ Vec3, Vec3 ];
+    toArray(): [Vec3, Vec3];
     toJSON(): { from: Vec3, to: Vec3 };
 }

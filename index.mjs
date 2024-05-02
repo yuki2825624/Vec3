@@ -21,6 +21,10 @@ export class Vec3 {
         return vec instanceof Vec3;
     }
 
+    static isVector3(vec) {
+        return typeof vec === "object" && Object.keys(vec).length === 3 && !Vec3.isNaN(vec);
+    }
+
     static isNaN(vec) {
         return Number.isNaN(Number(vec.x)) || Number.isNaN(Number(vec.y)) || Number.isNaN(Number(vec.z));
     }
@@ -159,7 +163,11 @@ export class Vec3 {
     }
 
     static size(a, b) {
-        return ((a, b) => (Math.abs(a.x - b.x) + 1) * (Math.abs(a.y - b.y) + 1) * (Math.abs(a.z - b.z) + 1))(Vec3.from(a), Vec3.from(b));
+        return Vec3.subtract(Vec3.max(a, b), Math.min(a, b)).add(1);
+    }
+
+    static volume(a, b) {
+        return ((size) => size.x * size.y * size.z)(Vec3.size(a, b));
     }
 
     get normalized() {
@@ -274,9 +282,16 @@ export class Vec3 {
         return new Vec3(this.x, this.y, z);
     }
 
+    setAxis(axis) {
+        if (axis.match(/[^xyz]/g)) throw new TypeError("axis contains other than x, y and z.");
+        for (const x of ["x", "y", "z"]) if (!axis.includes(x)) this[x] = 0;
+        return this.clone();
+    }
+
     fill(n, axis = "xyz") {
         if (axis.match(/[^xyz]/g)) throw new TypeError("axis contains other than x, y and z.");
-        return Vec3.from([...axis].map((x) => this[x] = n));
+        for (const x of axis) this[x] = n;
+        return this.clone();
     }
 
     equals(vec, axis = "xyz") {
@@ -285,15 +300,15 @@ export class Vec3 {
         return ![...axis].some((x) => fromVec[x] !== toVec[x]);
     }
 
-    clone() {
-        return new Vec3(this.x, this.y, this.z);
-    }
-
     format(input) {
         return input
             .replace("$x", String(this.x))
             .replace("$y", String(this.y))
             .replace("$z", String(this.z));
+    }
+
+    clone() {
+        return new Vec3(this.x, this.y, this.z);
     }
 
     toString() {
