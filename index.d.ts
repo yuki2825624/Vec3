@@ -61,8 +61,8 @@ export class Vec3 {
     get West(): Vec3
     get Up(): Vec3;
     get Down(): Vec3;
-    get North(): Vec3;
     get South(): Vec3;
+    get North(): Vec3;
     add(...vector: Vec3Like[]): Vec3;
     subtract(...vector: Vec3Like[]): Vec3;
     multiply(n: number): Vec3

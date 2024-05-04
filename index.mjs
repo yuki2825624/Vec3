@@ -190,11 +190,11 @@ export class Vec3 {
         return this.offsetY(-1);
     }
 
-    get North() {
+    get South() {
         return this.offsetZ(1);
     }
 
-    get South() {
+    get North() {
         return this.offsetZ(-1);
     }
 
