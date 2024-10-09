@@ -18,7 +18,7 @@ export class Vec3 {
     static get NEGATIVE(): Vec3;
     static get POSITIVE_INFINITY(): Vec3;
     static get NEGATIVE_INFINITY(): Vec3;
-    static isVec3(vec: Vec3Like): vec is Vec3;
+    static isVec3(vec: any): vec is Vec3;
     static from<V extends Vec3>(object: Vec3Like, map?: (vec: Vec3) => V): V;
     static add(vec: Vec3Like, ...vector: Vec3Like[]): Vec3;
     static subtract(vec: Vec3Like, ...vector: Vec3Like[]): Vec3;
@@ -40,7 +40,7 @@ export class Vec3 {
     static angleBetween(a: Vec3Like, b: Vec3Like): number;
     static projection(a: Vec3Like, b: Vec3Like): Vec3;
     static rejection(a: Vec3Like, b: Vec3Like): Vec3;
-    static reflect(vec: Vec3Like, n: number): Vec3;
+    static reflect(a: Vec3Like, b: Vec3Like): Vec3;
     static lerp(a: Vec3Like, b: Vec3Like, t: number): Vec3;
     static slerp(a: Vec3Like, b: Vec3Like, t: number): Vec3;
     static distance(a: Vec3Like, b: Vec3Like): number;
