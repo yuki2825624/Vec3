@@ -27,3 +27,4 @@ console.log(vec.equals(new Vec3(10.5, 20, 10))); // false
 console.log(vec.equals(new Vec3(10.5, 20, 10), "xy")); // true
 
 // etc...
+
