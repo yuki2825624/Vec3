@@ -504,40 +504,45 @@ export class Vec3 {
     }
 
     /**
+     * @param vector 加算するベクトル群
      * @remarks
-     * ベクトルに加算する
+     * 複数のベクトルを成分ごとに加算した結果のベクトル
      */
     add(...vector: Vec3Like[]) {
         return Vec3.add(this, ...vector);
     }
 
     /**
+     * @param vector 減算するベクトル群
      * @remarks
-     * ベクトルから減算する
+     * 複数のベクトルを成分ごとに減算した結果のベクトル
      */
     subtract(...vector: Vec3Like[]) {
         return Vec3.subtract(this, ...vector);
     }
 
     /**
+     * @param vector 乗算するベクトル群
      * @remarks
-     * ベクトルに乗算する
+     * 複数のベクトルを成分ごとに乗算した結果のベクトル
      */
     multiply(...vector: Vec3Like[]) {
         return Vec3.multiply(this, ...vector);
     }
 
     /**
+     * @param vector 除算するベクトル群
      * @remarks
-     * ベクトルに除算する
+     * 複数のベクトルを成分ごとに除算した結果のベクトル
      */
     divide(...vector: Vec3Like[]) {
         return Vec3.divide(this, ...vector);
     }
 
     /**
+     * @param n 指数
      * @remarks
-     * ベクトルの各成分をn倍する
+     * ベクトルの各成分を n 乗したベクトル
      */
     pow(n: number) {
         return Vec3.pow(this, n);
@@ -545,7 +550,7 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの各成分を切り上げる
+     * ベクトルの各成分を切り上げたベクトル
      */
     ceil() {
         return Vec3.ceil(this);
@@ -553,7 +558,7 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの各成分を四捨五入する
+     * ベクトルの各成分を四捨五入したベクトル
      */
     round() {
         return Vec3.round(this);
@@ -561,7 +566,7 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの各成分を切り捨てる
+     * ベクトルの各成分を切り捨てたベクトル
      */
     floor() {
         return Vec3.floor(this);
@@ -569,7 +574,7 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの各成分の絶対値を取る
+     * ベクトルの各成分の絶対値を取ったベクトル
      */
     abs() {
         return Vec3.abs(this);
@@ -577,23 +582,26 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの符号を取る
+     * ベクトルの各成分の符号を取ったベクトル
      */
     sign() {
         return Vec3.sign(this);
     }
 
     /**
+     * @param n 小数点以下の桁数
      * @remarks
-     * 少数第n桁で四捨五入 
+     * ベクトルの各成分を少数第 n 桁で四捨五入したベクトル
      */
     fixed(n: number) {
         return Vec3.fixed(this, n);
     }
 
     /**
+     * @param min 最小値ベクトル
+     * @param max 最大値ベクトル
      * @remarks
-     * ベクトルを min ~ max の範囲に収める
+     * ベクトルの各成分を min と max の範囲に収めたベクトル
      */
     clamp(min: Vec3Like, max: Vec3Like) {
         return Vec3.clamp(this, min, max);
@@ -601,7 +609,7 @@ export class Vec3 {
 
     /**
      * @remarks
-     * ベクトルの大きさ
+     * ベクトルの大きさ（ユークリッドノルム）
      */
     magnitude() {
         return Vec3.magnitude(this);
@@ -609,59 +617,68 @@ export class Vec3 {
 
     /**
      * @remarks
-     * 正規化
+     * ベクトルを正規化した単位ベクトル
      */
     normalize() {
         return Vec3.normalize(this);
     }
 
     /**
-     * @param vec
+     * @param vec 外積の右項となるベクトル
      * @remarks
-     * 外積
+     * 2つのベクトルの外積
      */
     cross(vec: Vec3Like) {
         return Vec3.cross(this, vec);
     }
 
     /**
-     * @param vec 
+     * @param vec 内積の右項となるベクトル
      * @remarks
-     * 内積
+     * 2つのベクトルの内積
      */
     dot(vec: Vec3Like) {
         return Vec3.dot(this, vec);
     }
 
     /**
+     * @param vec 比較対象となるベクトル
      * @remarks
-     * ベクトル間の角度
+     * 2つのベクトル間の角度（ラジアン）
      */
     angleBetween(vec: Vec3Like) {
         return Vec3.angleBetween(this, vec);
     }
 
     /**
+     * @param vec 射影先の方向ベクトル
      * @remarks
-     * 正射影
+     * ベクトル a をベクトル b の方向へ射影したベクトル (正射影)
      */
     projection(vec: Vec3Like) {
         return Vec3.projection(this, vec);
     }
 
     /**
+     * @param vec 射影方向のベクトル
      * @remarks
-     * 反射影
+     * ベクトル a から b 方向への射影成分を除いたベクトル (反射影)
      */
     rejection(vec: Vec3Like) {
         return Vec3.rejection(this, vec);
     }
 
+    /**
+     * @param vec 反射面の法線方向を表すベクトル
+     * @remarks
+     * 法線ベクトルで定義される面に対して、入射ベクトルを反射させた結果のベクトル
+     */
     reflect(vec: Vec3Like) {
         return Vec3.reflect(this, vec);
     } 
 
     /**
+     * @param x x座標の値
      * @remarks
      * ベクトルのx座標を絶対座標で変更する
      */
@@ -670,6 +687,7 @@ export class Vec3 {
     }
 
     /**
+     * @param y y座標の値
      * @remarks
      * ベクトルのy座標を絶対座標で変更する
      */
@@ -678,6 +696,7 @@ export class Vec3 {
     }
 
     /**
+     * @param z z座標の値
      * @remarks
      * ベクトルのz座標を絶対座標で変更する
      */
@@ -686,6 +705,9 @@ export class Vec3 {
     }
 
     /**
+     * @param x x成分のオフセット
+     * @param y y成分のオフセット
+     * @param z z成分のオフセット
      * @remarks
      * ベクトルの各成分を相対座標で変更する
      */
@@ -694,6 +716,7 @@ export class Vec3 {
     }
 
     /**
+     * @param x x成分のオフセット
      * @remarks
      * ベクトルのx成分を相対座標で変更する
      */
@@ -702,6 +725,7 @@ export class Vec3 {
     }
 
     /**
+     * @param y y成分のオフセット
      * @remarks
      * ベクトルのy成分を相対座標で変更する
      */
@@ -710,6 +734,7 @@ export class Vec3 {
     }
 
     /**
+     * @param z z成分のオフセット
      * @remarks
      * ベクトルのz成分を相対座標で変更する
      */
@@ -718,6 +743,10 @@ export class Vec3 {
     }
 
     /**
+     * @param x x成分のオフセット
+     * @param y y成分のオフセット
+     * @param z z成分のオフセット
+     * @param dirct 単位方向ベクトル
      * @remarks
      * ベクトルの各成分をローカル座標で変更する
      */
@@ -729,6 +758,8 @@ export class Vec3 {
     }
 
     /**
+     * @param x x成分のオフセット
+     * @param dirct 単位方向ベクトル
      * @remarks
      * ベクトルのx成分をローカル座標で変更する
      */
@@ -737,6 +768,8 @@ export class Vec3 {
     }
 
     /**
+     * @param y y成分のオフセット
+     * @param dirct 単位方向ベクトル
      * @remarks
      * ベクトルのy成分をローカル座標で変更する
      */
@@ -745,6 +778,8 @@ export class Vec3 {
     }
 
     /**
+     * @param z z成分のオフセット
+     * @param dirct 単位方向ベクトル
      * @remarks
      * ベクトルのz成分をローカル座標で変更する
      */
@@ -753,32 +788,40 @@ export class Vec3 {
     }
 
     /**
+     * @param angle 回転角
+     * @param origin 回転の中心点
      * @remarks
-     * ベクトルを origin を中心に angle だけ回転させる (X軸回転)
+     * vec を origin を中心として angle だけ回転させたベクトル（X軸回転）
      */
     rotateX(angle: number, origin?: Vec3Like) {
         return Vec3.rotateX(this, angle, origin);
     }
 
     /**
+     * @param angle 回転角
+     * @param origin 回転の中心点
      * @remarks
-     * ベクトルを origin を中心に angle だけ回転させる (Y軸回転)
+     * vec を origin を中心として angle だけ回転させたベクトル（Y軸回転）
      */
     rotateY(angle: number, origin?: Vec3Like) {
         return Vec3.rotateY(this, angle, origin);
     }
 
     /**
+     * @param angle 回転角
+     * @param origin 回転の中心点
      * @remarks
-     * ベクトルを origin を中心に angle だけ回転させる (Z軸回転)
+     * vec を origin を中心として angle だけ回転させたベクトル（Z軸回転）
      */
     rotateZ(angle: number, origin?: Vec3Like) {
         return Vec3.rotateZ(this, angle, origin);
     }
 
     /**
+     * @param vec 比較対象となるベクトル
+     * @param axis 比較を行う軸指定
      * @remarks
-     * ベクトルの各成分が等しいかを判断する
+     * 指定した軸成分について、2つのベクトルが等しいかを判定する
      */
     equals(vec: Vec3Like, axis?: `${"x" | ""}${"y" | ""}${"z" | ""}`) {
         return Vec3.equals(this, vec, axis);
